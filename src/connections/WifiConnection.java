@@ -50,7 +50,7 @@ public class WifiConnection implements Runnable
 	}
 	
 	
-	// TODO: 12/28/2020 change name to open and close (wifiConnection)
+	// TODO: 12/28/2020 -change name to open and close (wifiConnection)-
 	public synchronized void start()
 	{
 		thread = new Thread(this);

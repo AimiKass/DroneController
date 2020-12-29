@@ -1,4 +1,4 @@
-package managers.buttonManagers;
+package managers.buttonManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
