@@ -1,9 +1,9 @@
 package controllers;
 
 import display.Display;
-import managers.buttonManagers.ButtonManager;
-import managers.KeyManager;
-import managers.buttonManagers.buttons.ConnectBtnManager;
+import managers.buttonManager.ButtonManager;
+import managers.buttonManager.buttons.ConnectBtnManager;
+import managers.keyManager.TextAreaKeyManager;
 import models.Drone;
 
 import javax.swing.*;
@@ -29,7 +29,7 @@ public class MainController implements Runnable
 	private Drone drone;
 	
 	//Input
-	private KeyManager keyManager;
+	private TextAreaKeyManager textAreaKeyManager;
 	private ButtonManager connectBtnManager;
 	
 	
@@ -52,11 +52,11 @@ public class MainController implements Runnable
 		connectBtn = display.getConnectBtn();
 		textArea = display.getTextArea();
 		//initialize managers
-		keyManager = new KeyManager();
+		textAreaKeyManager = new TextAreaKeyManager(textArea);
 		connectBtnManager = new ConnectBtnManager(connectBtn);
 		//add listeners
 		connectBtn.addActionListener(connectBtnManager);
-		display.getTextArea().addKeyListener(keyManager);
+		display.getTextArea().addKeyListener(textAreaKeyManager);
 		
 	}
 	
@@ -82,7 +82,7 @@ public class MainController implements Runnable
 	private void loop()
 	{
 		drone.tick();
-		keyManager.tick();
+		textAreaKeyManager.tick();
 	}
 	
 	
@@ -152,9 +152,9 @@ public class MainController implements Runnable
 	
 	
 	
-	public KeyManager getKeyManager()
+	public TextAreaKeyManager getTextAreaKeyManager()
 	{
-		return keyManager;
+		return  textAreaKeyManager;
 	}
 	
 	

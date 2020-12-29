@@ -1,7 +1,7 @@
-package managers.buttonManagers.buttons;
+package managers.buttonManager.buttons;
 
 import connections.WifiConnection;
-import managers.buttonManagers.ButtonManager;
+import managers.buttonManager.ButtonManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +13,7 @@ public class ConnectBtnManager extends ButtonManager
 	{
 		super(button);
 	}
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -36,4 +37,9 @@ public class ConnectBtnManager extends ButtonManager
 			
 		}
 	}
+	
+	
+	
+	
+	
 }
