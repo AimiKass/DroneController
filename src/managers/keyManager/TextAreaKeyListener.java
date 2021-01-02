@@ -3,26 +3,26 @@ package managers.keyManager;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
-public class TextAreaKeyManager extends KeyManager
+public class TextAreaKeyListener extends KeyManager
 {
 	
-	public boolean up, down, left, right;
+	public boolean up, down, left, right ,stop = false;
 	
 	private long startTime = 0;
 	
 	private boolean pressedOnesIs = false;
 	
-	private int lettersInTextArea = 1;
+	private int lettersInTextArea = 0;
 	private final int BACKSPACE_KEY = 8;
 	
-	public TextAreaKeyManager(JTextArea textArea)
+	public TextAreaKeyListener(JTextArea textArea)
 	{
 		super(textArea);
 	}
 
 	
 	
-	public void tick()
+	public void updateKeys()
 	{
 		up = keys[KeyEvent.VK_W];
 		down = keys[KeyEvent.VK_S];
@@ -33,19 +33,18 @@ public class TextAreaKeyManager extends KeyManager
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		
 		if (e.getKeyCode() == BACKSPACE_KEY)
 			lettersInTextArea--;
 		else {
 			if (!pressedOnesIs)
 			{
+				stop = false;
 				keys[e.getKeyCode()] = true;
 				startTime = System.nanoTime();
 				
 				pressedOnesIs = true;
 			}
 		}
-		
 	}
 	
 	@Override
@@ -55,20 +54,25 @@ public class TextAreaKeyManager extends KeyManager
 		
 		if (e.getKeyCode() != BACKSPACE_KEY)
 		{
+			stop = true;
+			
 			pressedOnesIs = false;
 			System.out.println("Time:"+((System.nanoTime()-startTime)/1000000)+" ms");
 			
 			// TODO: 12/29/2020 -error when pressed two keys at the same time-
 			textArea.replaceRange("",lettersInTextArea,textArea.getText().length());
-//			textArea.append("Time:"+((System.nanoTime()-startTime)/1000000)+" ms");  TODO: 12/29/2020 -need extra  thought-
-			lettersInTextArea ++;
+			
+			
+			long totalTime = (System.nanoTime() - startTime);
+			textArea.append("Time the key \""+e.getKeyChar()+"\" pressed :"+((System.nanoTime()-startTime)/1000000)+" ms");
+			textArea.append("\n");
+			
+			lettersInTextArea += (21 + String.valueOf(totalTime).length() + 3) ;
 		}
 		
-		// if you press backspace more than the characters in the textArea restores the value of lettersInTextArea
 		if (lettersInTextArea < 1)
 			lettersInTextArea = 1;
 		
-		System.out.println("letters:"+lettersInTextArea);
 	}
 	
 	@Override

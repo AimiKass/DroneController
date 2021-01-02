@@ -14,6 +14,7 @@ public abstract class ButtonManager implements ActionListener
 		this.button = button;
 	}
 	
+	
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
