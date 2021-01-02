@@ -16,7 +16,7 @@ public abstract class KeyManager implements KeyListener
 		keys = new boolean[256];
 	}
 	
-	public abstract void tick();
+	public abstract void updateKeys();
 	
 	@Override
 	public void keyPressed(KeyEvent e)

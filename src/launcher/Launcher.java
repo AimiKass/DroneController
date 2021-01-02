@@ -1,12 +1,12 @@
 package launcher;
 
-import controllers.MainController;
+import controllers.UI;
 
 public class Launcher
 {
 	public static void main(String[] args)
 	{
-		MainController mainController = new MainController("DroneController", 640, 360);
-		mainController.startMainController();
+		UI UI = new UI("DroneController", 640, 360);
+		UI.start();
 	}
 }
