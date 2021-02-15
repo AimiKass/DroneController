@@ -12,7 +12,7 @@ public class SendToDrone
 	public SendToDrone()
 	{
 		try {
-			socket = new Socket("192.168.1.10", 1234);
+			socket = new Socket("192.168.1.5", 1234);
 		}catch (Exception e)
 		{
 			System.out.println("socket can not open for some reason");
