@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
+// TODO: 2/15/2021 i do not think you will need that anymore
 public abstract class KeyManager implements KeyListener
 {
 	protected boolean[] keys;
@@ -16,7 +18,6 @@ public abstract class KeyManager implements KeyListener
 		keys = new boolean[256];
 	}
 	
-	public abstract void updateKeys();
 	
 	@Override
 	public void keyPressed(KeyEvent e)
