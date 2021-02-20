@@ -9,7 +9,7 @@ public class UI
 	public String title;
 	
 	private Display display;
-	private MainLoop mainLoop;
+	private MainController mainController;
 	
 	
 	public UI(String title, int width, int height)
@@ -23,7 +23,7 @@ public class UI
 	private void init()
 	{
 		display = new Display(title, width, height);
-		mainLoop = new MainLoop(display);
+		mainController = new MainController(display);
 	}
 	
 	
@@ -32,8 +32,7 @@ public class UI
 	public void start()
 	{
 		init();
-		mainLoop.startMainLoop();
-		
+		mainController.startMainLoop();
 	}
 	
 	

@@ -8,10 +8,23 @@ public class ProcessKeyInput
 {
 	private static final int MOTOR_STEP = 10;
 	
+	private static final int PITCH_FORWARD_KEY = KeyEvent.VK_W;
+	private static final int PITCH_BACKWARD_KEY = KeyEvent.VK_S;
+	private static final int ROLL_LEFT_KEY = KeyEvent.VK_A;
+	private static final int ROLL_RIGHT_KEY = KeyEvent.VK_D;
+	private static final int YAW_LEFT_KEY = KeyEvent.VK_Q;
+	private static final int YAW_RIGHT_KEY = KeyEvent.VK_E;
+	private static final int THROTTLE_UP_KEY = KeyEvent.VK_P;
+	private static final int THROTTLE_DOWN_KEY = KeyEvent.VK_L;
+	private static final int ARM_KEY = KeyEvent.VK_SPACE;
+	private static final int DISARM_KEY = KeyEvent.VK_CONTROL;
+
+	
 	private int roll = 11500;
 	private int pitch = 21500;
-	private int yaw = 31500;
-	private int throttle = 41500;
+	private int yaw = 41500;
+	private int throttle = 31000;
+	private int arm = 51000;
 	
 	
 	public Set<Integer> values(Set<Integer> keys)
@@ -21,52 +34,60 @@ public class ProcessKeyInput
 		
 		if (!keys.contains(KeyEvent.VK_SHIFT))
 		{
-			if (keys.contains(KeyEvent.VK_W)) //PITCH FORWARD
+			if (keys.contains(PITCH_FORWARD_KEY)) //PITCH FORWARD
 			{
 				if (pitch < 22000)
 					pitch += MOTOR_STEP;
 			}
-			if (keys.contains(KeyEvent.VK_S)) //PITCH BACKWARD
+			if (keys.contains(PITCH_BACKWARD_KEY)) //PITCH BACKWARD
 			{
 				if (pitch > 21000)
 					pitch -= MOTOR_STEP;
 			}
-			if (keys.contains(KeyEvent.VK_A)) //ROLL LEFT
+			if (keys.contains(ROLL_LEFT_KEY)) //ROLL LEFT
 			{
 				if (roll > 11000)
 					roll -= MOTOR_STEP;
 			}
-			if (keys.contains(KeyEvent.VK_D)) //ROLL RIGHT
+			if (keys.contains(ROLL_RIGHT_KEY)) //ROLL RIGHT
 			{
 				if (roll < 12000)
 					roll += MOTOR_STEP;
 			}
-			if (keys.contains(KeyEvent.VK_Q)) //YAW LEFT
+			if (keys.contains(YAW_LEFT_KEY)) //YAW LEFT
 			{
 				if (yaw > 41000)
 					yaw -= MOTOR_STEP;
 			}
-			if (keys.contains(KeyEvent.VK_E)) //YAW RIGHT
+			if (keys.contains(YAW_RIGHT_KEY)) //YAW RIGHT
 			{
 				if (yaw < 42000)
 					yaw += MOTOR_STEP;
 			}
-			if (keys.contains(KeyEvent.VK_UP)) //THROTTLE UP
+			if (keys.contains(THROTTLE_UP_KEY)) //THROTTLE UP
 			{
 				if (throttle < 32000)
 					throttle += MOTOR_STEP;
 			}
-			if (keys.contains(KeyEvent.VK_DOWN)) //THROTTLE DOWN
+			if (keys.contains(THROTTLE_DOWN_KEY)) //THROTTLE DOWN
 			{
 				if (throttle > 31000)
 					throttle -= MOTOR_STEP;
 			}
+			if (keys.contains(ARM_KEY)) //Space disarms the drone and sets the minimum throttle
+			{
+				arm = 51000;
+				throttle = 31000;
+			}
+			if (keys.contains(DISARM_KEY)) // Control arms the drone
+			{
+				arm = 52000;
+			}
 		}
 		
-		boolean stopPitch = !keys.contains(KeyEvent.VK_W) && !keys.contains(KeyEvent.VK_S);
-		boolean stopRoll = !keys.contains(KeyEvent.VK_A) && !keys.contains(KeyEvent.VK_D);
-		boolean stopYaw = !keys.contains(KeyEvent.VK_Q) && !keys.contains(KeyEvent.VK_E);
-		boolean stopThrottle = !keys.contains(KeyEvent.VK_UP) && !keys.contains(KeyEvent.VK_DOWN);
+		boolean stopPitch = !keys.contains(PITCH_FORWARD_KEY) && !keys.contains(PITCH_BACKWARD_KEY);
+		boolean stopRoll = !keys.contains(ROLL_RIGHT_KEY) && !keys.contains(ROLL_LEFT_KEY);
+		boolean stopYaw = !keys.contains(YAW_RIGHT_KEY) && !keys.contains(YAW_LEFT_KEY);
 		
 		
 		if (stopRoll)
@@ -74,15 +95,14 @@ public class ProcessKeyInput
 		if (stopPitch)
 			pitch = 21500;
 		if (stopYaw)
-			yaw = 31500;
-		if (stopThrottle)
-			throttle = 41500;
+			yaw = 41500;
 		
 		
 		returnValues.add(roll);
 		returnValues.add(pitch);
 		returnValues.add(yaw);
 		returnValues.add(throttle);
+		returnValues.add(arm);
 		
 		
 		return returnValues;
