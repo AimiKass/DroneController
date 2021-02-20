@@ -4,21 +4,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class SendToDrone
+public class SendToDroneFrom
 {
 	private DataOutputStream dataOutputStream;
-	private Socket socket ;
+	private Socket socket;
 	
-	public SendToDrone()
+	public SendToDroneFrom(Socket socket)
 	{
-		try {
-			socket = new Socket("192.168.1.5", 1234);
-		}catch (Exception e)
-		{
-			System.out.println("socket can not open for some reason");
-		}
+		this.socket = socket;
 	}
-	
 	
 	
 	public void directions(int com)

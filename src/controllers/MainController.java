@@ -1,12 +1,14 @@
 package controllers;
 
-import connections.SendToDrone;
+import connections.Connection;
+import connections.SendToDroneFrom;
 import display.Display;
+import managers.buttonManager.buttons.ConnectBtnActionListener;
 import managers.keyManager.TextAreaKeyListener;
 import otherFunctions.ProcessKeyInput;
 
 
-public class MainLoop implements Runnable
+public class MainController implements Runnable
 {
 	private static final double ONE_SECOND = 1000000000;
 	
@@ -17,12 +19,13 @@ public class MainLoop implements Runnable
 	
 	private Display display;
 	private TextAreaKeyListener textAreaKeyListener;
-	private SendToDrone sendToDrone;
+	public static SendToDroneFrom sendToDrone;
+	private static Connection connection;
 	ProcessKeyInput processKeyInput;
 	
 	
 	
-	public MainLoop(Display display)
+	public MainController(Display display)
 	{
 		this.display = display;
 	}
@@ -37,7 +40,8 @@ public class MainLoop implements Runnable
 	private void init()
 	{
 		textAreaKeyListener = display.getTextAreaKeyListener();
-		sendToDrone = new SendToDrone();
+		connection = new Connection();
+		sendToDrone = new SendToDroneFrom(connection.getSocket());
 		processKeyInput = new ProcessKeyInput();
 	}
 	
@@ -46,7 +50,10 @@ public class MainLoop implements Runnable
 	{
 		
 		for (Integer directions:processKeyInput.values(textAreaKeyListener.getPressed()))
+		{
 			sendToDrone.directions(directions);
+//			System.out.println(directions);
+		}
 		
 	}
 	
@@ -88,8 +95,6 @@ public class MainLoop implements Runnable
 			
 		}
 	}
-	
-	
 	
 	
 	public void startMainLoop()

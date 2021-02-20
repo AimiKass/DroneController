@@ -39,7 +39,7 @@ public class Display extends JFrame
 		//==============JFrame=================
 		setSize(width,height);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		setResizable(true);
 		setLocationRelativeTo(null); //window appears in the center of the screen
 		setVisible(true);
 		
