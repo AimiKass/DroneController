@@ -10,7 +10,7 @@ public class TextAreaKeyListener implements KeyListener
 {
 	protected  JTextArea textArea;
 	
-	
+	private boolean pressedOnesIs = false;
 	private long startTime = 0;
 	
 	private int lettersInTextArea = 0;
@@ -33,23 +33,27 @@ public class TextAreaKeyListener implements KeyListener
 		if (e.getKeyCode() == BACKSPACE_KEY)
 			lettersInTextArea--;
 		else {
-			startTime = System.nanoTime();
 			pressed.add(e.getKeyCode());
+			
+			if (!pressedOnesIs)
+			{
+				startTime = System.nanoTime();
+				pressedOnesIs = true;
+			}
 		}
+		
 	}
 	
 	@Override
 	public void keyReleased(KeyEvent e)
 	{
-
-		pressed.remove(e.getKeyCode());
 		
+		pressed.remove(e.getKeyCode());
 		if (e.getKeyCode() != BACKSPACE_KEY)
 		{
+			pressedOnesIs = false;
 			
-			// TODO: 12/29/2020 -error with time-
 			textArea.replaceRange("",lettersInTextArea,textArea.getText().length());
-			
 			
 			long totalTime = (System.nanoTime() - startTime);
 			textArea.append("Time the key \""+e.getKeyChar()+"\" pressed :"+((System.nanoTime()-startTime)/1000000)+" ms");
