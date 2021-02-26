@@ -32,7 +32,7 @@ public class ProcessKeyInput
 		Set<Integer> returnValues = new HashSet<>();
 		
 		
-		if (!keys.contains(KeyEvent.VK_SHIFT))
+		if (!keys.contains(KeyEvent.VK_SHIFT)) //If shift is pressed values stay constant
 		{
 			if (keys.contains(PITCH_FORWARD_KEY)) //PITCH FORWARD
 			{
