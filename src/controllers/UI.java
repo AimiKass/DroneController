@@ -28,15 +28,10 @@ public class UI
 	
 	
 	
-	
 	public void start()
 	{
 		init();
 		mainController.startMainLoop();
 	}
-	
-	
-
-
 	
 }

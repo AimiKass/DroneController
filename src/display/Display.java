@@ -1,7 +1,7 @@
 package display;
 
 import managers.buttonManager.ButtonManager;
-import managers.buttonManager.buttons.ConnectBtnActionListener;
+import managers.buttonManager.buttons.RecordingBtnActionListener;
 import managers.keyManager.TextAreaKeyListener;
 
 import javax.swing.*;
@@ -43,6 +43,58 @@ public class Display extends JFrame
 		setLocationRelativeTo(null); //window appears in the center of the screen
 		setVisible(true);
 		
+//		addWindowListener(new WindowListener()
+//		{
+//			@Override
+//			public void windowOpened(WindowEvent e)
+//			{
+//
+//			}
+//
+//			@Override
+//			public void windowClosing(WindowEvent e)
+//			{
+//				if (JOptionPane.showConfirmDialog(e.getWindow(),
+//												  "Are you sure you want to close this window?", "Close Window?",
+//												  JOptionPane.YES_NO_OPTION,
+//												  JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+//				{
+//					MainController.stopMainLoop();
+//					System.exit(0);
+//				}
+//			}
+//
+//			@Override
+//			public void windowClosed(WindowEvent e)
+//			{
+//
+//			}
+//
+//			@Override
+//			public void windowIconified(WindowEvent e)
+//			{
+//
+//			}
+//
+//			@Override
+//			public void windowDeiconified(WindowEvent e)
+//			{
+//
+//			}
+//
+//			@Override
+//			public void windowActivated(WindowEvent e)
+//			{
+//
+//			}
+//
+//			@Override
+//			public void windowDeactivated(WindowEvent e)
+//			{
+//
+//			}
+//		});
+		
 		
 		//==============JTextArea=================
 		int textAreaWidth = (int) (width/1.5);
@@ -72,10 +124,10 @@ public class Display extends JFrame
 		//==============JButton=================
 		int buttonWidth = 150;
 		int buttonHeight = 30;
-		connectBtn = new JButton("Connect");
+		connectBtn = new JButton("Start Recording");
 		connectBtn.setBounds((width/2)-buttonWidth/2, height-buttonHeight-20, buttonWidth, buttonHeight);
 		
-		connectBtnManager = new ConnectBtnActionListener(connectBtn);
+		connectBtnManager = new RecordingBtnActionListener(connectBtn);
 		connectBtn.addActionListener(connectBtnManager);
 		
 		add(connectBtn);

@@ -3,7 +3,6 @@ package controllers;
 import connections.Connection;
 import connections.SendToDroneFrom;
 import display.Display;
-import managers.buttonManager.buttons.ConnectBtnActionListener;
 import managers.keyManager.TextAreaKeyListener;
 import otherFunctions.ProcessKeyInput;
 
@@ -12,14 +11,13 @@ public class MainController implements Runnable
 {
 	private static final double ONE_SECOND = 1000000000;
 	
-	
 	private boolean loopIs = false;
 	
 	private Thread thread;
 	
 	private Display display;
 	private TextAreaKeyListener textAreaKeyListener;
-	public static SendToDroneFrom sendToDrone;
+	private static SendToDroneFrom sendToDrone;
 	private static Connection connection;
 	ProcessKeyInput processKeyInput;
 	
@@ -48,12 +46,8 @@ public class MainController implements Runnable
 	
 	private void loop()
 	{
-		
 		for (Integer directions:processKeyInput.values(textAreaKeyListener.getPressed()))
-		{
 			sendToDrone.directions(directions);
-//			System.out.println(directions);
-		}
 		
 	}
 	
@@ -69,7 +63,6 @@ public class MainController implements Runnable
 		long now;
 		long lastTime = System.nanoTime();
 		long timer = 0;
-		int ticks = 0;
 		
 		while (loopIs)
 		{
@@ -82,17 +75,11 @@ public class MainController implements Runnable
 			if (delta >= 1)
 			{
 				loop();
-				ticks++;
 				delta--;
 			}
 			
 			if (timer >= ONE_SECOND)
-			{
-//				System.out.println("Ticks amd Frames:" + ticks);
-				ticks = 0;
 				timer = 0;
-			}
-			
 		}
 	}
 	
