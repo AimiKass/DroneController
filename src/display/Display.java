@@ -2,6 +2,7 @@ package display;
 
 import managers.buttonManager.ButtonManager;
 import managers.buttonManager.buttons.RecordingBtnActionListener;
+import managers.buttonManager.buttons.StartRecordedFlyBtnActionListener;
 import managers.keyManager.TextAreaKeyListener;
 
 import javax.swing.*;
@@ -14,14 +15,14 @@ public class Display extends JFrame
 	private JScrollPane scrollPane;
 	
 	private JTextArea textArea;
-	private JButton connectBtn;
+	private JButton recordingBtn,playRecordedFlyBtn;
 	
 	
 	private  int width,height;
 	
 	
 	private TextAreaKeyListener textAreaKeyListener;
-	private ButtonManager connectBtnManager;
+	private ButtonManager recordingBtnManager,playRecordedFlyBtnManager;
 	
 	
 	public Display(String title, int width, int height)
@@ -121,17 +122,29 @@ public class Display extends JFrame
 		
 		
 		
-		//==============JButton=================
+		//==============JRecordingBtn=================
 		int buttonWidth = 150;
 		int buttonHeight = 30;
-		connectBtn = new JButton("Start Recording");
-		connectBtn.setBounds((width/2)-buttonWidth/2, height-buttonHeight-20, buttonWidth, buttonHeight);
+		recordingBtn = new JButton("Start Recording");
+		recordingBtn.setBounds((width/2)-buttonWidth, height-buttonHeight-20, buttonWidth, buttonHeight);
 		
-		connectBtnManager = new RecordingBtnActionListener(connectBtn);
-		connectBtn.addActionListener(connectBtnManager);
 		
-		add(connectBtn);
+		recordingBtnManager = new RecordingBtnActionListener(recordingBtn);
+		recordingBtn.addActionListener(recordingBtnManager);
 		
+		add(recordingBtn);
+		
+		
+		//==============JPlayRecordedFlyBtn=================
+		
+		
+		playRecordedFlyBtn = new JButton("Play Recorded Fly");
+		playRecordedFlyBtn.setBounds((width/2)+buttonWidth/2, height-buttonHeight-20, buttonWidth, buttonHeight);
+		
+		playRecordedFlyBtnManager = new StartRecordedFlyBtnActionListener(playRecordedFlyBtn);
+		playRecordedFlyBtn.addActionListener(playRecordedFlyBtnManager);
+
+		add(playRecordedFlyBtn);
 		
 		//==============Canvas=================
 		canvas = new Canvas();
@@ -152,8 +165,8 @@ public class Display extends JFrame
 		return textAreaKeyListener;
 	}
 	
-	public ButtonManager getConnectBtnManager()
+	public ButtonManager getRecordingBtnManager()
 	{
-		return connectBtnManager;
+		return recordingBtnManager;
 	}
 }

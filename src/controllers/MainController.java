@@ -1,15 +1,15 @@
 package controllers;
 
 import connections.Connection;
-import connections.SendToDroneFrom;
 import display.Display;
+import loops.MainLoop;
+import loops.PlayRecordedFlyLoop;
 import managers.keyManager.TextAreaKeyListener;
-import otherFunctions.ProcessKeyInput;
+import otherFunctions.Database;
 
 
 public class MainController implements Runnable
 {
-	private static final double ONE_SECOND = 1000000000;
 	
 	private boolean loopIs = false;
 	
@@ -17,9 +17,17 @@ public class MainController implements Runnable
 	
 	private Display display;
 	private TextAreaKeyListener textAreaKeyListener;
-	private static SendToDroneFrom sendToDrone;
-	private static Connection connection;
-	ProcessKeyInput processKeyInput;
+	
+	private Database database;
+	Connection connection;
+	
+	
+	//loop classes
+	static MainLoop mainLoop;
+	static PlayRecordedFlyLoop playRecordedFlyLoop;
+	//threads
+	static Thread thread_MainLoop;
+	static Thread thread_PlayRecordedFlyLoop;
 	
 	
 	
@@ -32,56 +40,51 @@ public class MainController implements Runnable
 	public void run()
 	{
 		init();
-		startLoop();
+		startMainLoopThread();
+		
 	}
 	
 	private void init()
 	{
 		textAreaKeyListener = display.getTextAreaKeyListener();
+		
 		connection = new Connection();
-		sendToDrone = new SendToDroneFrom(connection.getSocket());
-		processKeyInput = new ProcessKeyInput();
-	}
-	
-	
-	private void loop()
-	{
-		for (Integer directions:processKeyInput.values(textAreaKeyListener.getPressed()))
-			sendToDrone.directions(directions);
+		database = new Database();
+		
+		mainLoop = new MainLoop(connection,textAreaKeyListener);
+		playRecordedFlyLoop = new PlayRecordedFlyLoop(connection);
+		
+		
+		database.eraseRecordedFly();
+		database.setRecordingButtonIs(false);
 		
 	}
 	
 	
-	/**
-	 * 	Function that repeats a loop method in specific ticks per second (tpc)
-	 */
-	private void startLoop()
+	public static void startRecordedFly()
 	{
-		int tps = 20;  //ticks per second
-		double timePerTick = ONE_SECOND / tps;
-		double delta = 0;
-		long now;
-		long lastTime = System.nanoTime();
-		long timer = 0;
-		
-		while (loopIs)
-		{
-			now = System.nanoTime();
-			delta += (now - lastTime) / timePerTick ;
-			timer += now - lastTime;
-			lastTime = now;
-			
-			
-			if (delta >= 1)
-			{
-				loop();
-				delta--;
-			}
-			
-			if (timer >= ONE_SECOND)
-				timer = 0;
+		mainLoop.stopMainLoop();
+		try {
+			thread_PlayRecordedFlyLoop = new Thread(playRecordedFlyLoop);
+			thread_PlayRecordedFlyLoop.start();
+			thread_PlayRecordedFlyLoop.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		
+		startMainLoopThread();
 	}
+	
+	
+	private static void startMainLoopThread()
+	{
+		
+			thread_MainLoop = new Thread(mainLoop);
+			thread_MainLoop.start();
+			mainLoop.startMainLoop();
+	}
+	
+	
 	
 	
 	public void startMainLoop()

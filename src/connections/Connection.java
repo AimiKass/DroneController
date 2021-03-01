@@ -15,6 +15,7 @@ public class Connection
 			socket = new Socket(host,port);
 		} catch (IOException e)
 		{
+			// TODO: 2/27/2021 create popup windows
 			System.out.println("socket can not open for some reason");
 		}
 	}
