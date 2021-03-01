@@ -1,6 +1,5 @@
 package managers.keyManager;
 
-import models.RecordedKey;
 import otherFunctions.Database;
 
 import javax.swing.*;
@@ -17,7 +16,6 @@ public class TextAreaKeyListener implements KeyListener
 	
 	private boolean pressedOnesIs = false;
 	
-	private HashSet<RecordedKey> recordedKeys = new HashSet<>();
 	private Set<Integer> pressed = new HashSet<>();
 	
 	private long startTime = 0;
@@ -46,7 +44,7 @@ public class TextAreaKeyListener implements KeyListener
 			lettersInTextArea--;
 		else {
 			pressed.add(e.getKeyCode());
-			
+//			database.setRecordedFly(Integer.toString(e.getKeyCode()));
 			if (!pressedOnesIs)
 			{
 				startTime = System.nanoTime();
@@ -59,26 +57,20 @@ public class TextAreaKeyListener implements KeyListener
 	@Override
 	public void keyReleased(KeyEvent e)
 	{
-		
 		pressed.remove(e.getKeyCode());
-		if (e.getKeyCode() != BACKSPACE_KEY)
-		{
+		if (e.getKeyCode() != BACKSPACE_KEY) {
 			pressedOnesIs = false;
 			
-			textArea.replaceRange("",lettersInTextArea,textArea.getText().length());
+			textArea.replaceRange("", lettersInTextArea, textArea.getText().length());
 			
 			long totalTime = (System.nanoTime() - startTime);
-			textArea.append("Time the key \""+e.getKeyChar()+"\" pressed :"+((System.nanoTime()-startTime)/1000000)+" ms");
+			textArea.append("Time the key \"" + e.getKeyChar() + "\" pressed :" + ((System.nanoTime() - startTime) / 1000000) + " ms");
 			textArea.append("\n");
 			
-			lettersInTextArea += (21 + String.valueOf(totalTime).length() + 3) ;
+			lettersInTextArea += (21 + String.valueOf(totalTime).length() + 3);
 			
 			
-			// TODO: 2/25/2021 reset dataBase
-			if (database.getRecordingButtonIs())
-				database.setRecordedFly(Character.toString(e.getKeyChar())+"."+Long.toString(totalTime));
 		}
-		
 		if (lettersInTextArea < 1)
 			lettersInTextArea = 1;
 		
@@ -96,8 +88,4 @@ public class TextAreaKeyListener implements KeyListener
 		return pressed;
 	}
 	
-	public HashSet<RecordedKey> getRecordedKeys()
-	{
-		return recordedKeys;
-	}
 }

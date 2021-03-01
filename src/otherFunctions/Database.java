@@ -1,6 +1,5 @@
 package otherFunctions;
 
-import models.RecordedKey;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,21 +9,20 @@ import java.util.Scanner;
 // TODO: 2/24/2021 Create a class in order to establish if database exist
 public class Database
 {
-	String pathOfRecordedFly = "src/database/recordedFly.txt";
-	String pathOfBooleanForRecordingButton = "src/database/recordingButtonIs.txt";
+	String path_OfRecordedFly = "src/database/recordedFly.txt";
+	String path_OfBooleanForRecordingButton = "src/database/recordingButtonIs.txt";
 	
-	File recordedFlyFile = new File(pathOfRecordedFly);
-	File recordingButtonIsFile = new File(pathOfBooleanForRecordingButton);
-	
+	File file_recordedFly = new File(path_OfRecordedFly);
+	File file_recordingButtonIs = new File(path_OfBooleanForRecordingButton);
 	
 	
 	
 	public Database()
 	{
-		if (!recordedFlyFile.exists())
+		if (!file_recordedFly.exists())
 		{
 			try {
-				recordedFlyFile.createNewFile();
+				file_recordedFly.createNewFile();
 			} catch (IOException e)
 			{
 				// TODO: 2/24/2021 test it and you should
@@ -33,10 +31,10 @@ public class Database
 			}
 		}
 		
-		if (!recordingButtonIsFile.exists())
+		if (!file_recordingButtonIs.exists())
 		{
 			try {
-				recordingButtonIsFile.createNewFile();
+				file_recordingButtonIs.createNewFile();
 			} catch (IOException e)
 			{
 				// TODO: 2/24/2021 test it and you should
@@ -50,7 +48,7 @@ public class Database
 	public void setRecordedFly(String msg)
 	{
 		try {
-			FileWriter fw = new FileWriter(pathOfRecordedFly, true);
+			FileWriter fw = new FileWriter(path_OfRecordedFly, true);
 			BufferedWriter writer = new BufferedWriter(fw);
 			writer.append(msg);
 			writer.newLine();
@@ -62,16 +60,32 @@ public class Database
 		}
 	}
 	
-	public List<RecordedKey> getRecordedFly()
+	
+	
+	public List<ArrayList<Integer>> getRecordedFly()
 	{
-		List<RecordedKey> keys = new ArrayList<>();
+		List<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
+		
+		
 		Scanner scanner = null;
 		try{
-			scanner = new Scanner(recordedFlyFile);
+			scanner = new Scanner(file_recordedFly);
+			
+			int i=0;
+			list.add(new ArrayList<>());
+			
 			while (scanner.hasNextLine())
 			{
 				String line = scanner.nextLine();
-				keys.add(new RecordedKey(line.split("\\.")[0].charAt(0),Long.parseLong(line.split("\\.")[1])));
+				if (line.equals("."))
+				{
+					list.add(new ArrayList<>());
+					i++;
+				}else
+				{
+					list.get(i).add(Integer.parseInt(line));
+				}
+				
 			}
 			
 		} catch (FileNotFoundException e)
@@ -79,13 +93,14 @@ public class Database
 			System.out.println(scanner.nextLine());
 			e.printStackTrace();
 		}
-		return keys;
+		return list;
 	}
+	
 	
 	public void eraseRecordedFly()
 	{
 		try {
-			new FileWriter(pathOfRecordedFly,false).close();
+			new FileWriter(path_OfRecordedFly, false).close();
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}
@@ -97,7 +112,7 @@ public class Database
 		String buttonIs = recordingButtonIs ? "True" : "False";
 		
 		try {
-			FileWriter fw = new FileWriter(pathOfBooleanForRecordingButton);
+			FileWriter fw = new FileWriter(path_OfBooleanForRecordingButton);
 			BufferedWriter writer = new BufferedWriter(fw);
 			writer.append(buttonIs);
 			writer.newLine();
@@ -114,7 +129,7 @@ public class Database
 		boolean recordingButtonIs;
 		
 		try{
-			Scanner scanner = new Scanner(recordingButtonIsFile);
+			Scanner scanner = new Scanner(file_recordingButtonIs);
 			
 			if (scanner.nextLine().equals("True"))
 				recordingButtonIs = true;
