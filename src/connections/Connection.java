@@ -1,18 +1,21 @@
 package connections;
 
+import otherFunctions.Database;
+
 import java.io.IOException;
 import java.net.Socket;
 
 public class Connection
 {
-	private static final String host = "192.168.1.8";
-	private static final int port = 1234;
+	
 	private Socket socket ;
 	
 	public Connection()
 	{
+		Database database = new Database();
+		
 		try {
-			socket = new Socket(host,port);
+			socket = new Socket(database.getIP(),Integer.parseInt(database.getPort()));
 		} catch (IOException e)
 		{
 			// TODO: 2/27/2021 create popup windows

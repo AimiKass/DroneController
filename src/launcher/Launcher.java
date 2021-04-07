@@ -6,7 +6,7 @@ public class Launcher
 {
 	public static void main(String[] args)
 	{
-		UI UI = new UI("DroneController", 640, 360);
+		UI UI = new UI("DroneController", 700, 500);
 		UI.start();
 	}
 }

@@ -70,7 +70,7 @@ public class MainLoop implements Runnable
 	private void startLoop()
 	{
 		int tps = 20;  //ticks per second
-		double timePerTick = ONE_SECOND / tps;
+		double timePerTick = ONE_SECOND / tps; // 1000000000 / 20
 		double delta = 0;
 		long now;
 		long lastTime = System.nanoTime();

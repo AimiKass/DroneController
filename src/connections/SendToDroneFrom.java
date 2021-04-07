@@ -15,11 +15,11 @@ public class SendToDroneFrom
 	}
 	
 	
-	public void directions(int com)
+	public void directions(int data)
 	{
 		try {
 			dataOutputStream = new DataOutputStream(socket.getOutputStream());
-			dataOutputStream.writeInt(com);
+			dataOutputStream.writeInt(data);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
