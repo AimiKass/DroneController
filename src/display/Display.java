@@ -1,6 +1,7 @@
 package display;
 
 import managers.buttonManager.ButtonManager;
+import managers.buttonManager.buttons.ConnectionBtnActionListener;
 import managers.buttonManager.buttons.RecordingBtnActionListener;
 import managers.buttonManager.buttons.StartRecordedFlyBtnActionListener;
 import managers.keyManager.TextAreaKeyListener;
@@ -14,15 +15,15 @@ public class Display extends JFrame
 	private Canvas canvas;
 	private JScrollPane scrollPane;
 	
-	private JTextArea textArea;
-	private JButton recordingBtn,playRecordedFlyBtn;
+	private JTextArea textArea, iPTextArea,portTextArea;
+	private JButton recordingBtn,playRecordedFlyBtn, connectBtn;
 	
 	
 	private  int width,height;
 	
 	
 	private TextAreaKeyListener textAreaKeyListener;
-	private ButtonManager recordingBtnManager,playRecordedFlyBtnManager;
+	private ButtonManager recordingBtnManager,playRecordedFlyBtnManager,connectionBtnManager;
 	
 	
 	public Display(String title, int width, int height)
@@ -98,12 +99,12 @@ public class Display extends JFrame
 		
 		
 		//==============JTextArea=================
-		int textAreaWidth = (int) (width/1.5);
-		int textAreaHeight = (int) (height/1.5);
+		int mainTextAreaWidth = (int) (width/1.3);
+		int mainTextAreaHeight = (int) (height/1.7);
 		
 		textArea = new JTextArea();
 		
-		textArea.setBounds(width/2-textAreaWidth/2,height/2-textAreaHeight/2,textAreaWidth,textAreaHeight); //Being in center
+		textArea.setBounds(width/2-mainTextAreaWidth/2,height/2-mainTextAreaHeight/2,mainTextAreaWidth,mainTextAreaHeight); //Being in center
 		textArea.setLineWrap(true);
 		textArea.setVisible(true);
 		
@@ -112,13 +113,25 @@ public class Display extends JFrame
 		
 		add(textArea);
 		
+		//=============IPTextArea==========================
+		iPTextArea = new JTextArea();
+		int secondaryTextAreaWidth = 150;
+		int secondaryTextAreaHeight = 20;
+		
+		
+		iPTextArea.setBounds((width/2)+(secondaryTextAreaWidth/2),secondaryTextAreaHeight,secondaryTextAreaWidth,secondaryTextAreaHeight);
+		
+		
+		//=========portTextArea===========================
+		portTextArea = new JTextArea();
+		
+		portTextArea.setBounds((width/2)+(secondaryTextAreaWidth/2),secondaryTextAreaHeight*3,secondaryTextAreaWidth,secondaryTextAreaHeight);
 		
 		
 		//==============JScrollPane=================
 		scrollPane = new JScrollPane(textArea);
-		scrollPane.setBounds(width/2-textAreaWidth/2,height/2-textAreaHeight/2,textAreaWidth,textAreaHeight);
+		scrollPane.setBounds(width/2-mainTextAreaWidth/2,height/2-mainTextAreaHeight/2,mainTextAreaWidth,mainTextAreaHeight);
 
-		add(scrollPane);
 		
 		
 		
@@ -126,25 +139,33 @@ public class Display extends JFrame
 		int buttonWidth = 150;
 		int buttonHeight = 30;
 		recordingBtn = new JButton("Start Recording");
-		recordingBtn.setBounds((width/2)-buttonWidth, height-buttonHeight-20, buttonWidth, buttonHeight);
+		recordingBtn.setBounds(width/2-mainTextAreaWidth/2, height-buttonHeight-20, buttonWidth, buttonHeight);
 		
 		
 		recordingBtnManager = new RecordingBtnActionListener(recordingBtn);
 		recordingBtn.addActionListener(recordingBtnManager);
 		
-		add(recordingBtn);
 		
 		
 		//==============JPlayRecordedFlyBtn=================
 		
 		
 		playRecordedFlyBtn = new JButton("Play Recorded Fly");
-		playRecordedFlyBtn.setBounds((width/2)+buttonWidth/2, height-buttonHeight-20, buttonWidth, buttonHeight);
+		playRecordedFlyBtn.setBounds((width/2-mainTextAreaWidth/2)+mainTextAreaWidth-buttonWidth, height-buttonHeight-20, buttonWidth, buttonHeight);
 		
 		playRecordedFlyBtnManager = new StartRecordedFlyBtnActionListener(playRecordedFlyBtn);
 		playRecordedFlyBtn.addActionListener(playRecordedFlyBtnManager);
 
-		add(playRecordedFlyBtn);
+		
+		//==============JPlayRecordedFlyBtn=================
+		
+		connectBtn = new JButton("Connect");
+		connectBtn.setBounds(width/2-mainTextAreaWidth/2, buttonHeight+10, buttonWidth, buttonHeight);
+		
+		connectionBtnManager = new ConnectionBtnActionListener(connectBtn,iPTextArea,portTextArea);
+		connectBtn.addActionListener(connectionBtnManager);
+		
+		
 		
 		//==============Canvas=================
 		canvas = new Canvas();
@@ -153,6 +174,13 @@ public class Display extends JFrame
 		canvas.setMinimumSize(new Dimension(width,height));
 		canvas.setFocusable(false);
 		
+		
+		add(iPTextArea);
+		add(portTextArea);
+		add(connectBtn);
+		add(playRecordedFlyBtn);
+		add(recordingBtn);
+		add(scrollPane);
 		add(canvas);
 		
 		

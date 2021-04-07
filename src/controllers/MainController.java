@@ -16,10 +16,10 @@ public class MainController implements Runnable
 	private Thread thread;
 	
 	private Display display;
-	private TextAreaKeyListener textAreaKeyListener;
+	private static TextAreaKeyListener textAreaKeyListener;
 	
 	private Database database;
-	Connection connection;
+	private static Connection connection;
 	
 	
 	//loop classes
@@ -40,7 +40,7 @@ public class MainController implements Runnable
 	public void run()
 	{
 		init();
-		startMainLoopThread();
+//		startMainLoopThread();
 		
 	}
 	
@@ -48,11 +48,11 @@ public class MainController implements Runnable
 	{
 		textAreaKeyListener = display.getTextAreaKeyListener();
 		
-		connection = new Connection();
+//		connection = new Connection();
 		database = new Database();
 		
-		mainLoop = new MainLoop(connection,textAreaKeyListener);
-		playRecordedFlyLoop = new PlayRecordedFlyLoop(connection);
+//		mainLoop = new MainLoop(connection,textAreaKeyListener);
+//		playRecordedFlyLoop = new PlayRecordedFlyLoop(connection);
 		
 		
 		database.eraseRecordedFly();
@@ -65,6 +65,7 @@ public class MainController implements Runnable
 	{
 		mainLoop.stopMainLoop();
 		try {
+			playRecordedFlyLoop = new PlayRecordedFlyLoop(connection);
 			thread_PlayRecordedFlyLoop = new Thread(playRecordedFlyLoop);
 			thread_PlayRecordedFlyLoop.start();
 			thread_PlayRecordedFlyLoop.join();
@@ -76,15 +77,19 @@ public class MainController implements Runnable
 	}
 	
 	
-	private static void startMainLoopThread()
+	public static void startMainLoopThread()
 	{
+		mainLoop = new MainLoop(connection,textAreaKeyListener);
 		
-			thread_MainLoop = new Thread(mainLoop);
+		thread_MainLoop = new Thread(mainLoop);
 			thread_MainLoop.start();
 			mainLoop.startMainLoop();
 	}
 	
-	
+	public static void setConnection(Connection con)
+	{
+		connection = con;
+	}
 	
 	
 	public void startMainLoop()
