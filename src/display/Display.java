@@ -17,6 +17,7 @@ public class Display extends JFrame
 	
 	private JTextArea textArea, iPTextArea,portTextArea;
 	private JButton recordingBtn,playRecordedFlyBtn, connectBtn;
+	private JLabel portLabel,IPLabel;
 	
 	
 	private  int width,height;
@@ -114,7 +115,7 @@ public class Display extends JFrame
 		add(textArea);
 		
 		//=============IPTextArea==========================
-		iPTextArea = new JTextArea();
+		iPTextArea = new JTextArea("192.168.1.9");
 		int secondaryTextAreaWidth = 150;
 		int secondaryTextAreaHeight = 20;
 		
@@ -123,17 +124,25 @@ public class Display extends JFrame
 		
 		
 		//=========portTextArea===========================
-		portTextArea = new JTextArea();
+		portTextArea = new JTextArea("1234");
 		
 		portTextArea.setBounds((width/2)+(secondaryTextAreaWidth/2),secondaryTextAreaHeight*3,secondaryTextAreaWidth,secondaryTextAreaHeight);
-		
 		
 		//==============JScrollPane=================
 		scrollPane = new JScrollPane(textArea);
 		scrollPane.setBounds(width/2-mainTextAreaWidth/2,height/2-mainTextAreaHeight/2,mainTextAreaWidth,mainTextAreaHeight);
 
+		//================PortLabel=======================
+		int portLabelWidth = 75;
+		int portLabelHeight = 15;
+		portLabel = new JLabel("Port:");
+		portLabel.setBounds((width/2)+(secondaryTextAreaWidth/2)-portLabelWidth,secondaryTextAreaHeight*3,portLabelWidth,portLabelHeight);
 		
-		
+		//================IPLabel=======================
+		int IPLabelWidth = 75;
+		int IPLabelHeight = 15;
+		IPLabel = new JLabel("IP:");
+		IPLabel.setBounds((width/2)+(secondaryTextAreaWidth/2)-IPLabelWidth,secondaryTextAreaHeight,IPLabelWidth,IPLabelHeight);
 		
 		//==============JRecordingBtn=================
 		int buttonWidth = 150;
@@ -176,7 +185,9 @@ public class Display extends JFrame
 		
 		
 		add(iPTextArea);
+		add(IPLabel);
 		add(portTextArea);
+		add(portLabel);
 		add(connectBtn);
 		add(playRecordedFlyBtn);
 		add(recordingBtn);
